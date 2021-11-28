@@ -22,7 +22,6 @@ sysinfo.txt
 *.sln
 *.suo
 *.svd
-*.unityproj
 *.user
 *.userprefs
 *.pidb
