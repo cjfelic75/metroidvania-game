@@ -37,31 +37,40 @@ public class PlayerMovement : MonoBehaviour
         characterSprite = GetComponent<SpriteRenderer>();
         movementSpeed = 5;
         jumpSpeed = 5;
-        CrouchMovement(false);
+        isIdle(true);
     }
 
     void Update()
     {
         timeSinceMovement += Time.deltaTime;
 
-        /*
-        if(timeSinceMovement <= 5f)
+        if(timeSinceMovement > 5f)
         {
-            Shot(true);
+            isIdle(true);
         }
-        else
-            Shot(false);
-        */
+        
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             CrouchMovement(true);
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            Shot(true);
+        }
+
+        
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             ShootUp(true);
         }
+
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            Shot(true);
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -73,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("LightATK"))
         {
-            timeSinceMovement = 0f;
+            Shot(true);
         }
     }
 
@@ -84,12 +93,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rlMovement = -1f;
             CrouchMovement(false);
+            runMovement(true);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rlMovement = 1f;
             CrouchMovement(false);
+            runMovement(true);
         }
 
         Vector3 moveDir = new Vector3(rlMovement, 0);
@@ -106,33 +117,9 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = Vector2.up * jumpSpeed;
     }
 
-    void CrouchMovement(bool isCrouching)
+    void isIdle(bool isIdle)
     {
-        if (isCrouching)
-        {
-            BoxCollider2D.offset = new Vector2(0.05f, -0.12f);
-            BoxCollider2D.size = new Vector2(0.25f, 0.25f);
-            CapCollider2D.enabled = false;
-            characterSprite.sprite = Crouching[0];
-        }
-        else
-        {
-            Shot(true);
-        }
-    }
-
-    void Shot(bool isShooting)
-    {
-        if (isShooting)
-        {
-            BoxCollider2D.offset = new Vector2(0.054f, 0.019f);
-            BoxCollider2D.size = new Vector2(0.22f, 0.23f);
-            CapCollider2D.enabled = true;
-            CapCollider2D.offset = new Vector2(0.03f, -0.167f);
-            CapCollider2D.size = new Vector2(0.25f, 0.16f);
-            characterSprite.sprite = Shooting[0];
-        }
-        else
+        if (isIdle)
         {
             BoxCollider2D.offset = new Vector2(-0.01f, 0.03f);
             BoxCollider2D.size = new Vector2(0.21f, 0.27f);
@@ -143,11 +130,38 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void CrouchMovement(bool isCrouching)
+    {
+        if (isCrouching)
+        {
+            timeSinceMovement = 0;
+            BoxCollider2D.offset = new Vector2(0.05f, -0.12f);
+            BoxCollider2D.size = new Vector2(0.25f, 0.25f);
+            CapCollider2D.enabled = false;
+            characterSprite.sprite = Crouching[0];
+        }
+    }
+
+    void Shot(bool isShooting)
+    {
+        if (isShooting)
+        {
+            timeSinceMovement = 0;
+            BoxCollider2D.offset = new Vector2(0.054f, 0.019f);
+            BoxCollider2D.size = new Vector2(0.22f, 0.23f);
+            CapCollider2D.enabled = true;
+            CapCollider2D.offset = new Vector2(0.03f, -0.167f);
+            CapCollider2D.size = new Vector2(0.25f, 0.16f);
+            characterSprite.sprite = Shooting[0];
+        }
+    }
+
 
     void ShootUp(bool isShootingUp)
     {
         if (isShootingUp)
         {
+            timeSinceMovement = 0;
             characterSprite.sprite = ShootingUp[0];
         }
     }
@@ -156,12 +170,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isRunning)
         {
+            timeSinceMovement = 0;
             characterSprite.sprite = RegularSprint[0];
             characterSprite.sprite = ShootingSprint[0];
-        }
-        else
-        {
-
         }
     }
 }
