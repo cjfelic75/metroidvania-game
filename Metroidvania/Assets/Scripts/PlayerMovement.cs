@@ -48,27 +48,52 @@ public class PlayerMovement : MonoBehaviour
         {
             isIdle(true);
         }
-        
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
-            CrouchMovement(true);
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                CrouchMovement(true);
+            }
+
+            if (Input.GetKeyUp(KeyCode.DownArrow))
+            {
+                Shot(true);
+            }
         }
 
-        if (Input.GetKeyUp(KeyCode.DownArrow))
+
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
-            Shot(true);
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                ShootUp(true);
+            }
+
+            if (Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                Shot(true);
+            }
         }
 
-        
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
-            ShootUp(true);
-        }
+            if (Input.GetButton("LightATK"))
+            {
+                Shot(true);
+            }
 
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            Shot(true);
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                Shot(true);
+            }
+
+
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                Shot(true);
+            }
         }
 
 
@@ -79,11 +104,6 @@ public class PlayerMovement : MonoBehaviour
                 JumpMovement();
             }
         }
-
-        if (Input.GetButtonDown("LightATK"))
-        {
-            Shot(true);
-        }
     }
 
     void FixedUpdate()
@@ -92,14 +112,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rlMovement = -1f;
-            CrouchMovement(false);
             runMovement(true);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rlMovement = 1f;
-            CrouchMovement(false);
             runMovement(true);
         }
 
@@ -162,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
         if (isShootingUp)
         {
             timeSinceMovement = 0;
+            Shot(false);
             characterSprite.sprite = ShootingUp[0];
         }
     }
@@ -171,6 +190,7 @@ public class PlayerMovement : MonoBehaviour
         if (isRunning)
         {
             timeSinceMovement = 0;
+            Shot(false);
             characterSprite.sprite = RegularSprint[0];
             characterSprite.sprite = ShootingSprint[0];
         }
