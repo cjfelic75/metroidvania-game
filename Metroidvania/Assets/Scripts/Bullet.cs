@@ -11,12 +11,12 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb.velocity = Time.fixedDeltaTime * (transform.right * speed);
-
     }
 
     private void Update()
     {
         time += Time.deltaTime;
+
         if (time > 0.2)
         {
             Debug.Log("Bullet has destabilized");
