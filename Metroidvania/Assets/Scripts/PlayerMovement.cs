@@ -55,12 +55,12 @@ public class PlayerMovement : MonoBehaviour
     {
         timeSinceMovement += Time.deltaTime;
 
-        if(timeSinceMovement <= 5f)
+        if (timeSinceMovement <= 5f)
         {
             isIdle(false);
         }
 
-        if(timeSinceMovement > 5f)
+        if (timeSinceMovement > 5f)
         {
             Shot(false);
             isIdle(true);
@@ -115,11 +115,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             if (isOnGround)
             {
-                JumpMovement();
+                JumpMovement(true);
+            }
+        }
+        if (!Input.GetKey(KeyCode.Space))
+        {
+            if (isOnGround)
+            {
+                JumpMovement(false);
             }
         }
     }
@@ -156,11 +163,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void JumpMovement()
+    void JumpMovement(bool isJumping)
     {
-        rb.velocity = Vector2.up * jumpSpeed;
+        if (isJumping)
+        {
+            rb.velocity = Vector2.up * jumpSpeed;
+            animatonToggle.SetBool("isJumping", true);
+        }
+        if (!isJumping)
+        {
+            animatonToggle.SetBool("isJumping", false);
+        }
     }
-
     void isIdle(bool isIdle)
     {
         if (isIdle)
