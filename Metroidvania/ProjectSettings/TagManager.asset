@@ -12,6 +12,7 @@ TagManager:
   - Surface
   - Enemy
   - BulletSpawn
+  - BreakableBlock
   layers:
   - Default
   - TransparentFX
