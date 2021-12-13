@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         BoxCollider2D = GetComponent<BoxCollider2D>();
         CapCollider2D = GetComponent<CapsuleCollider2D>();
         characterSprite = GetComponent<SpriteRenderer>();
-        movementSpeed = 5;
+        movementSpeed = 3;
         jumpSpeed = 5;
         isLookingRight = true;
         isIdle(true);
