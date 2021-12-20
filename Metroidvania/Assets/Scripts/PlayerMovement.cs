@@ -50,7 +50,19 @@ public class PlayerMovement : MonoBehaviour
             bulletOffset = bullet.GetComponent<objectOffset>();
         }
     }
-
+    void OnTriggerEnter2D(Collider2D watermovement)
+    {
+        if (watermovement.tag == "Water")
+        {
+            movementSpeed = 1;
+            jumpSpeed = 4;
+        }
+        if (watermovement.tag == "Out of water")
+        {
+            movementSpeed = 3;
+            jumpSpeed = 7;
+        }
+    }
     void Update()
     {
         timeSinceMovement += Time.deltaTime;
