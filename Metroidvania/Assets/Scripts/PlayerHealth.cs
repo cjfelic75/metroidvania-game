@@ -1,16 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
     private SpriteRenderer sr;
+    public string GameOver;
     private int maxHealth = 99;
     public int currentHealth;
+
 
 
     private int maxCanisters = 14;
     public int currentFullCanisters;
     public int currentEmptyCanisters;
+
 
     public Image[] Canisters;
     public Sprite fullCanister;
@@ -34,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 currentHealth = 0;
                 //Death Animation Here
-                //Game Over
+                SceneManager.LoadScene(GameOver);
             }
         }
     }
